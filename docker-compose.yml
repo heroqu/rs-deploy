@@ -1,0 +1,68 @@
+version: '3.6'
+
+services:
+  site:
+    image: "heroqu/site:0.0.21"
+    environment:
+      - PORT=3010
+      - REACT_APP_DEFAULT_LOCALE
+    build:
+      context: ./site
+      args:
+        DISTRO: "node:10.6.0-alpine"
+    ports:
+      - "3010:3010"
+    volumes:
+      - ./site/src:/usr/src/app/src
+      - ./site/public:/usr/src/app/public
+      - /usr/src/app/node_modules
+    networks:
+      - the_ntwk
+    depends_on:
+      - mailer
+    # deploy:
+    #   restart_policy:
+    #     condition: any
+    #     delay: 5s
+    #     max_attempts: 10
+    #     window: 120s
+    #   replicas: 1
+    #   resources:
+    #     limits:
+    #       cpus: "0.7"
+    #       memory: 700M
+    #
+  mailer:
+    environment:
+      - GMAILER_PORT=3020
+      - GMAILER_TO
+      - GMAILER_SENDER
+      - GMAILER_PASS
+      - GMAILER_WHITELIST
+    image: "heroqu/mailer:0.0.21"
+    build:
+      context: ./mailer
+      args:
+        DISTRO: "node:10.6.0-alpine"
+    ports:
+      - "3020:3020"
+    volumes:
+      - ./mailer:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - the_ntwk
+    # deploy:
+    #   restart_policy:
+    #     condition: any
+    #     delay: 5s
+    #     max_attempts: 10
+    #     window: 120s
+    #   replicas: 1
+    #   resources:
+    #     limits:
+    #       cpus: "0.2"
+    #       memory: 100M
+
+networks:
+  the_ntwk:
+    driver: bridge
