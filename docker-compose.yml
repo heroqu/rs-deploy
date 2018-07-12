@@ -2,10 +2,9 @@ version: '3.6'
 
 services:
   site:
-    image: "heroqu/site:0.0.21"
+    image: "heroqu/site:0.0.22"
     environment:
       - PORT=3010
-      - REACT_APP_DEFAULT_LOCALE
     build:
       context: ./site
       args:
@@ -39,7 +38,7 @@ services:
       - GMAILER_SENDER
       - GMAILER_PASS
       - GMAILER_WHITELIST
-    image: "heroqu/mailer:0.0.21"
+    image: "heroqu/mailer:0.0.22"
     build:
       context: ./mailer
       args:
