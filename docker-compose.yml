@@ -2,13 +2,14 @@ version: '3.6'
 
 services:
   site:
-    image: "heroqu/site:0.0.22"
+    image: "heroqu/site:0.0.23"
     environment:
       - PORT=3010
     build:
       context: ./site
       args:
-        DISTRO: "node:10.6.0-alpine"
+        DISTRO: "node:10.7.0-alpine"
+        SERVE_VERSION: "9.3.0"
     ports:
       - "3010:3010"
     volumes:
@@ -38,11 +39,11 @@ services:
       - GMAILER_SENDER
       - GMAILER_PASS
       - GMAILER_WHITELIST
-    image: "heroqu/mailer:0.0.22"
+    image: "heroqu/mailer:0.0.23"
     build:
       context: ./mailer
       args:
-        DISTRO: "node:10.6.0-alpine"
+        DISTRO: "node:10.7.0-alpine"
     ports:
       - "3020:3020"
     volumes:
